@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 19:17:35 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/24 15:18:56 by llemmel          ###   ########.fr       */
+/*   Created: 2024/11/24 15:17:54 by llemmel           #+#    #+#             */
+/*   Updated: 2024/11/24 15:18:07 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "utils.h"
 
-# include "stdlib.h"
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	src_len;
 
-size_t	ft_strlen(const char *str);
-int		ft_atoi_safe(const char *nptr);
-void	*ft_memset(void	*s, int c, size_t n);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-
-# endif
+	i = 0;
+	src_len = ft_strlen(src);
+	if (size == 0)
+		return (src_len);
+	if (src_len == 0)
+	{
+		dst[0] = '\0';
+		return (src_len);
+	}
+	while ((i < size - 1) && src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_len);
+}

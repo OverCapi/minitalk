@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:45:11 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/01 15:14:13 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/24 14:21:05 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	char_converter(unsigned char c)
 {
-	ft_putchar_fd(c, 1);
+	ft_putchar_fd_pf(c, 1);
 	return (1);
 }
 
@@ -22,12 +22,12 @@ int	str_converter(char *str)
 {
 	if (str == NULL)
 	{
-		ft_putstr_fd("(null)", 1);
+		ft_putstr_fd_pf("(null)", 1);
 		return (6);
 	}
 	else
-		ft_putstr_fd(str, 1);
-	return (ft_strlen(str));
+		ft_putstr_fd_pf(str, 1);
+	return (ft_strlen_pf(str));
 }
 
 int	dec_converter(unsigned int nb, int sign)
@@ -39,7 +39,7 @@ int	dec_converter(unsigned int nb, int sign)
 		size = get_dec_size((int)nb, 1);
 		if ((int)nb <= 0)
 			size++;
-		ft_putnbr_fd(nb, 1);
+		ft_putnbr_fd_pf(nb, 1);
 	}
 	else
 	{
@@ -64,7 +64,7 @@ int	ptr_converter(size_t addr)
 	}
 	else
 	{
-		ft_putstr_fd("(nil)", 1);
+		ft_putstr_fd_pf("(nil)", 1);
 		return (5);
 	}
 }

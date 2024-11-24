@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 19:17:35 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/24 15:18:56 by llemmel          ###   ########.fr       */
+/*   Created: 2024/11/24 14:06:38 by llemmel           #+#    #+#             */
+/*   Updated: 2024/11/24 14:06:48 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "utils.h"
 
-# include "stdlib.h"
+void	*ft_memset(void	*s, int c, size_t n)
+{
+	unsigned char	*s2;
+	size_t			i;
 
-size_t	ft_strlen(const char *str);
-int		ft_atoi_safe(const char *nptr);
-void	*ft_memset(void	*s, int c, size_t n);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-
-# endif
+	i = 0;
+	s2 = (unsigned char *)s;
+	while (i != n)
+	{
+		s2[i] = c;
+		i++;
+	}
+	return (s);
+}

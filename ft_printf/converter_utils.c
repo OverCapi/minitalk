@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:07:42 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/01 15:14:11 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/24 14:21:33 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_putunbr(unsigned int nbr)
 {
 	if (nbr >= 10)
 		ft_putunbr(nbr / 10);
-	ft_putchar_fd('0' + nbr % 10, 1);
+	ft_putchar_fd_pf('0' + nbr % 10, 1);
 }
 
 int	get_hex_size(size_t nb)
@@ -68,5 +68,5 @@ void	ft_puthexa(size_t nb, int maj)
 		hex = "0123456789ABCDEF";
 	if (nb >= 16)
 		ft_puthexa(nb / 16, maj);
-	ft_putchar_fd(hex[nb % 16], 1);
+	ft_putchar_fd_pf(hex[nb % 16], 1);
 }

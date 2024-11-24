@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 09:23:40 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/04 14:25:00 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/24 14:19:48 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static int	check_convert(va_list ptr, char specifier, size_t *i, size_t *len)
 {
 	if (!specifier)
 		return (-1);
-	else if (!ft_strchr("cspdiuxX%", specifier))
+	else if (!ft_strchr_pf("cspdiuxX%", specifier))
 	{
-		ft_putchar_fd('%', 1);
-		ft_putchar_fd(specifier, 1);
+		ft_putchar_fd_pf('%', 1);
+		ft_putchar_fd_pf(specifier, 1);
 		*len += 2;
 		*i += 1;
 	}
@@ -77,7 +77,7 @@ int	ft_printf(const char *format, ...)
 		}
 		else
 		{
-			ft_putchar_fd(format[i], 1);
+			ft_putchar_fd_pf(format[i], 1);
 			len++;
 		}
 		i++;

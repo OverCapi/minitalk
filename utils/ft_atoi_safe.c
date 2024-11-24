@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:03:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/23 19:17:13 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/24 13:48:34 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int check_overflow(long long int nb, int sign)
 	return (0);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi_safe(const char *nptr)
 {
 	int		nb;
 	int		sign;
