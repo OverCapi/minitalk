@@ -62,6 +62,7 @@
     "ft_printf.h": "c",
     "server.h": "c",
     "types.h": "c",
-    "utils.h": "c"
+    "utils.h": "c",
+    "random": "c"
   }
 }
