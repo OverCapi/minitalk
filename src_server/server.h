@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:06:51 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/25 19:50:00 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/25 23:09:12 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "../ft_printf/ft_printf.h"
 
 # define ERROR_MALLOC "Error\nAllocation error\n"
+# define ERROR_SIGNAL "Error\nSignal error\n"
 
 typedef struct s_sig_buffer
 {
