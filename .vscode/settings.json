@@ -63,6 +63,13 @@
     "server.h": "c",
     "types.h": "c",
     "utils.h": "c",
-    "random": "c"
-  }
+    "random": "c",
+    "array": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "ranges": "c",
+    "span": "c",
+    "utility": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

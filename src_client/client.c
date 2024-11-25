@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/25 16:47:48 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:15:52 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	send_byte(int server_pid, char c)
 			kill(server_pid, SIGUSR1);
 		else
 			kill(server_pid, SIGUSR2);
+		usleep(100);
 		mask = mask >> 1;
 		i++;
-		usleep(10);
 	}
 	return (0);
 }
@@ -46,9 +46,11 @@ int	send_message(unsigned int server_pid, char *message)
 	while (message[i])
 	{
 		send_byte(server_pid, message[i]);
+		usleep(100);
 		i++;
 	}
 	send_byte(server_pid, message[i]);
+	usleep(100);
 	return (0);
 }
 
@@ -59,7 +61,7 @@ int	send_pid(unsigned int server_pid, unsigned int client_pid)
 	u_int32_t	mask;
 
 	i = 1;
-	mask = 0x1000;
+	mask = 0x80000000;
 	size = sizeof(unsigned int) * 8;
 	while (i <= size)
 	{
@@ -67,10 +69,10 @@ int	send_pid(unsigned int server_pid, unsigned int client_pid)
 			kill(server_pid, SIGUSR1);
 		else
 			kill(server_pid, SIGUSR2);
+		usleep(100);
 		mask = mask >> 1;
 		i++;
 	}
-	ft_printf("PID send !\n");
 	return (0);
 }
 
@@ -78,7 +80,7 @@ void	sig_handler(int sig_num)
 {
 	if (sig_num == SIGUSR1)
 	{
-		ft_printf("successfully received messages");
+		ft_printf("Successfully received messages");
 		exit(0);
 	}
 }
@@ -97,23 +99,29 @@ int	main(int argc, char **argv)
 	unsigned int		server_pid;
 	unsigned int		client_pid;
 	char				*message;
+	int					i;
 
-	(void)argv;
 	if (argc != 3)
 		return (print_error(ERROR_USAGE));
 	else
 	{
+		i = 0;
 		client_pid = getpid();
-		ft_printf("client pid : %u\n", (int)client_pid);
+		// ft_printf("client pid : %u\n", client_pid);
 		server_pid = ft_atoi_safe(argv[1]);
 		if (server_pid < 2)
 			return (print_error(ERROR_PID));
 		message = argv[2];
+		set_sig_action();
 		send_pid(server_pid, client_pid);
 		send_message(server_pid, message);
-		set_sig_action();
-		while (1)
+		while (i < TIMEOUT)
+		{
+			i++;
+			usleep(1000);
 			continue ;
+		}
+		return (print_error(ERROR_TIMEOUT));
 	}
 	return (0);
 }

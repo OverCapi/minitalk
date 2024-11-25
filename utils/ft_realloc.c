@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 17:06:51 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/25 19:50:00 by llemmel          ###   ########.fr       */
+/*   Created: 2024/11/25 19:51:58 by llemmel           #+#    #+#             */
+/*   Updated: 2024/11/25 20:09:02 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "utils.h"
 
-# include <sys/types.h>
-# include <signal.h>
-# include <unistd.h>
-
-# include "../utils/utils.h"
-# include "../ft_printf/ft_printf.h"
-
-# define ERROR_MALLOC "Error\nAllocation error\n"
-
-typedef struct s_sig_buffer
+void	*ft_realloc(void *ptr, size_t size, size_t new_size)
 {
-	int	*buffer;
-	int	current_sig;
-	int	size;
-}	t_sig_buffer;
+	void	*dest;
 
-#endif
+	if (!ptr)
+		return (NULL);
+	dest = (void *)malloc(new_size);
+	if (!dest)
+		return (NULL);
+	ft_memset(dest, 0, new_size);
+	ft_memcpy(dest, ptr, size);
+	free(ptr);
+	ptr = NULL;
+	return (dest);
+}

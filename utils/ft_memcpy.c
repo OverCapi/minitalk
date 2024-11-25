@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 17:06:51 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/25 19:50:00 by llemmel          ###   ########.fr       */
+/*   Created: 2024/11/25 19:54:02 by llemmel           #+#    #+#             */
+/*   Updated: 2024/11/25 19:55:00 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include "utils.h"
 
-# include <sys/types.h>
-# include <signal.h>
-# include <unistd.h>
-
-# include "../utils/utils.h"
-# include "../ft_printf/ft_printf.h"
-
-# define ERROR_MALLOC "Error\nAllocation error\n"
-
-typedef struct s_sig_buffer
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	int	*buffer;
-	int	current_sig;
-	int	size;
-}	t_sig_buffer;
+	size_t			i;
+	unsigned char	*dest_cpy;
+	unsigned char	*src_cpy;
 
-#endif
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	dest_cpy = (unsigned char *)dest;
+	src_cpy = (unsigned char *)src;
+	i = 0;
+	while (i < n)
+	{
+		dest_cpy[i] = src_cpy[i];
+		i++;
+	}
+	return (dest);
+}
