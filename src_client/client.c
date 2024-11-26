@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 16:20:55 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 16:27:27 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ static void	init_action(void)
 	sigaction(SIGUSR2, &action, NULL);
 }
 
-// t : 116 : 0111 0100
-//   		 1000 0000
 void	send_bit(int server_pid, char byte, int bit_index)
 {
 	u_int8_t mask;
@@ -76,13 +74,11 @@ void	send_bit(int server_pid, char byte, int bit_index)
 	mask = 0b10000000 >> bit_index;
 	if (((byte & mask) >> (7 - bit_index)) == 0)
 	{
-		// ft_printf("Sending 0\n");
 		if (kill(server_pid, SIGUSR1) == -1)
 			exit_msg(ERROR_SIGNAL, 1);
 	}
 	else
 	{
-		// ft_printf("Sending 1\n");
 		if (kill(server_pid, SIGUSR2) == -1)
 			exit_msg(ERROR_SIGNAL, 1);
 	}
@@ -108,7 +104,6 @@ int	main(int argc, char **argv)
 	{
 		if (g_recever == 1)
 		{
-			ft_printf("Sending %c\n", msg[i]);
 			if (i < ft_strlen(msg) + 1)
 			{
 				send_bit(server_pid, msg[i], bit_index);

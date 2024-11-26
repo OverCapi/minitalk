@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:42 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 16:13:13 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 16:30:50 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	handler(int sig, siginfo_t *info, void *context)
 	static int	bit_index = 0;
 
 	(void)context;
-	// ft_printf("Signal received %d\n", sig == SIGUSR2);
 	if (sig == SIGUSR1)
 		byte = (byte << 1) | 0;
 	else
@@ -62,6 +61,10 @@ static void	handler(int sig, siginfo_t *info, void *context)
 			buffer = NULL;
 			if (info && kill(info->si_pid, SIGUSR1) == -1)
 				exit_msg(ERROR_SIGNAL, 1);
+			ft_memset(info, 0, sizeof(siginfo_t));
+			byte = 0;
+			bit_index = 0;
+			return ;
 		}
 		else
 			buffer = add_to_buffer(buffer, byte);
