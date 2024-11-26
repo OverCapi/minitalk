@@ -20,7 +20,7 @@
 # include <sys/types.h>
 # include <signal.h>
 
-# define TIMEOUT 100000 // 10 seconds
+# define CONFIRM_MSG "Message succefully received\n"
 
 # define ERROR_USAGE "Error\nUsage: ./client <server_pid> <message>\n"
 # define ERROR_PID "Error\nInvalid PID\n"

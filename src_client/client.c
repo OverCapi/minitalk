@@ -12,110 +12,74 @@
 
 #include "client.h"
 
-volatile sig_atomic_t	g_received;
-
-void	exit_prog(const char *error_message)
+void	exit_msg(const char *msg, int exit_status)
 {
-	write(2, error_message, ft_strlen(error_message));
-	exit(1);
+	ft_printf("%s", msg);
+	exit(exit_status);
 }
 
-int	send_byte(unsigned int server_pid, char c, int bit_num)
+void	send_byte(int server_pid, char byte)
 {
+	int			bit_index;
 	u_int8_t	mask;
 
-	mask = 0x80 >> bit_num;
-	if ((c & mask) >> (7 - bit_num) == 0)
-		kill(server_pid, SIGUSR1);
-	else
-		kill(server_pid, SIGUSR2);
-	g_received = 0;
-	usleep(100);
-	return (0);
-}
-
-int	send_pid(unsigned int server_pid)
-{
-	size_t			i;
-	size_t			size;
-	u_int32_t		mask;
-	unsigned int	client_pid;
-
-	i = 1;
-	client_pid = getpid();
-	ft_printf("Client PID: %u\n", client_pid);
-	mask = 0x80000000;
-	size = sizeof(unsigned int) * 8;
-	while (i <= size)
+	mask = 0b10000000;
+	bit_index = 0;
+	while (++bit_index <= 8)
 	{
-		if ((client_pid & mask) >> (size - i) == 0)
+		if ((byte & mask) >> (7 - bit_index + 1) == 0)
 		{
 			if (kill(server_pid, SIGUSR1) == -1)
-				exit_prog(ERROR_SIGNAL);
+				exit_msg(ERROR_SIGNAL, 1);
 		}
 		else
 		{
 			if (kill(server_pid, SIGUSR2) == -1)
-				exit_prog(ERROR_SIGNAL);
+				exit_msg(ERROR_SIGNAL, 1);
 		}
 		usleep(100);
 		mask = mask >> 1;
-		i++;
 	}
-	return (0);
 }
 
-void	sig_handler(int sig_num)
+void	send_message(int server_pid, const char *msg)
 {
-	if (sig_num == SIGUSR1)
-	{
-		ft_printf("Successfully received messages");
-		exit(0);
-	}
-	else if (sig_num == SIGUSR2)
-		g_received = 1;
+	int			i;
+
+	i = -1;
+	while (msg[++i])
+		send_byte(server_pid, msg[i]);
+	send_byte(server_pid, msg[i]);
 }
 
-void	set_sig_action(void)
+void	handler(int sig)
 {
-	struct sigaction	act;
+	if (sig == SIGUSR1)
+		exit_msg(CONFIRM_MSG, 0);
+}
 
-	ft_memset(&act, 0, sizeof(act));
-	act.sa_handler = &sig_handler;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
+void	init_action(void)
+{
+	struct sigaction	action;
+
+	ft_memset(&action, 0, sizeof(sigaction));
+	action.sa_handler = &handler;
+	sigaction(SIGUSR1, &action, NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	unsigned int		server_pid;
-	char				*message;
-	int					i;
-	int					bit_num;
-
+	unsigned int	server_pid;
+	char			*msg;
+	
 	if (argc != 3)
-		exit_prog(ERROR_USAGE);
+		exit_msg(ERROR_USAGE, 1);
 	server_pid = ft_atoi_safe(argv[1]);
-	if (server_pid < 2)
-		exit_prog(ERROR_PID);
-	i = 0;
-	g_received = 0;
-	message = argv[2];
-	set_sig_action();
-	send_pid(server_pid);
-	ft_printf("server_pid: %u\n", server_pid);
+	msg = argv[2];
+	init_action();
+	send_message(server_pid, msg);
 	while (1)
 	{
-		if (g_received == 1)
-		{
-			send_byte(server_pid, message[i], bit_num);
-			bit_num++;
-			if (bit_num == 8)
-			{
-				bit_num = 0;
-				i++;
-			}
-		}
 		usleep(100);
 		continue ;
 	}

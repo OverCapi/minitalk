@@ -23,11 +23,4 @@
 # define ERROR_MALLOC "Error\nAllocation error\n"
 # define ERROR_SIGNAL "Error\nSignal error\n"
 
-typedef struct s_sig_buffer
-{
-	int	*buffer;
-	int	current_sig;
-	int	size;
-}	t_sig_buffer;
-
 #endif

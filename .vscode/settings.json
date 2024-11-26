@@ -69,7 +69,8 @@
     "initializer_list": "c",
     "ranges": "c",
     "span": "c",
-    "utility": "c"
+    "utility": "c",
+    "unistd.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
