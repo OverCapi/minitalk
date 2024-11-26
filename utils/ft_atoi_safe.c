@@ -6,23 +6,23 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:03:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/24 13:48:34 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 14:52:53 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static int ft_iswhite_space(char c)
+static int	ft_iswhite_space(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-static int ft_isdigit(char c)
+static int	ft_isdigit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-static int check_overflow(long long int nb, int sign)
+static int	check_overflow(long long int nb, int sign)
 {
 	if (sign == 1 && nb > 2147483647)
 		return (-1);

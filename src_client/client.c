@@ -6,19 +6,13 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 00:04:37 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 15:00:09 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-void	exit_msg(const char *msg, int exit_status)
-{
-	ft_printf("%s", msg);
-	exit(exit_status);
-}
-
-void	send_byte(int server_pid, char byte)
+static void	send_byte(int server_pid, char byte)
 {
 	int			bit_index;
 	u_int8_t	mask;
@@ -42,7 +36,7 @@ void	send_byte(int server_pid, char byte)
 	}
 }
 
-void	send_message(int server_pid, const char *msg)
+static void	send_message(int server_pid, const char *msg)
 {
 	int			i;
 
@@ -52,13 +46,13 @@ void	send_message(int server_pid, const char *msg)
 	send_byte(server_pid, msg[i]);
 }
 
-void	handler(int sig)
+static void	handler(int sig)
 {
 	if (sig == SIGUSR1)
 		exit_msg(CONFIRM_MSG, 0);
 }
 
-void	init_action(void)
+static void	init_action(void)
 {
 	struct sigaction	action;
 
@@ -71,17 +65,21 @@ int	main(int argc, char **argv)
 {
 	unsigned int	server_pid;
 	char			*msg;
-	
+	size_t			i;
+
+	i = 0;
 	if (argc != 3)
 		exit_msg(ERROR_USAGE, 1);
 	server_pid = ft_atoi_safe(argv[1]);
 	msg = argv[2];
 	init_action();
 	send_message(server_pid, msg);
-	while (1)
+	while (i < 1000000)
 	{
 		usleep(100);
+		i++;
 		continue ;
 	}
+	exit_msg(ERROR_TIMEOUT, 1);
 	return (0);
 }
