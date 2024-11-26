@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 00:04:37 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:28:19 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	send_byte(int server_pid, char byte)
 			if (kill(server_pid, SIGUSR2) == -1)
 				exit_msg(ERROR_SIGNAL, 1);
 		}
-		usleep(100);
+		usleep(TIME);
 		mask = mask >> 1;
 	}
 }
@@ -71,7 +71,7 @@ int	main(int argc, char **argv)
 {
 	unsigned int	server_pid;
 	char			*msg;
-	
+
 	if (argc != 3)
 		exit_msg(ERROR_USAGE, 1);
 	server_pid = ft_atoi_safe(argv[1]);
@@ -79,9 +79,6 @@ int	main(int argc, char **argv)
 	init_action();
 	send_message(server_pid, msg);
 	while (1)
-	{
-		usleep(100);
 		continue ;
-	}
 	return (0);
 }

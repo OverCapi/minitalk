@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:42 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 00:03:24 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 19:37:06 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,34 @@ void	exit_error(const char *error_msg)
 char	*add_to_buffer(char *buffer, char byte)
 {
 	char		*new_buffer;
-	size_t		new_size;
+	static int	allocation_size = 256;
+	static int	len = 1;
 
 	if (!buffer)
 	{
-		buffer = (char *)malloc(sizeof(char) * 2);
+		allocation_size = 256;
+		len = 1;
+		buffer = (char *)malloc(allocation_size * sizeof(char));
 		if (!buffer)
 			exit_error(ERROR_MALLOC);
-		buffer[0] = byte;
-		buffer[1] = '\0';
-		return (buffer);
 	}
-	new_size = ft_strlen(buffer) + 2;
-	new_buffer = (char *)malloc(sizeof(char) * new_size);
-	if (!new_buffer)
+	else if (len == allocation_size)
 	{
+		allocation_size *= 2;
+		new_buffer = (char *)malloc(allocation_size * sizeof(char));
+		if (!new_buffer)
+		{
+			free(buffer);
+			exit_error(ERROR_MALLOC);
+		}
+		ft_strlcpy(new_buffer, buffer, len + 2);
 		free(buffer);
-		exit_error(ERROR_MALLOC);
+		buffer = new_buffer;
 	}
-	ft_strlcpy(new_buffer, buffer, new_size);
-	new_buffer[new_size - 2] = byte;
-	new_buffer[new_size - 1] = '\0';
-	free(buffer);
-	return (new_buffer);
+	buffer[len - 1] = byte;
+	buffer[len] = '\0';
+	len += 1;
+	return (buffer);
 }
 
 void	handler(int sig, siginfo_t *info, void *context)
