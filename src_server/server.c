@@ -6,11 +6,24 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:42 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 19:37:06 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/26 20:06:00 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
+
+static char	*init_buffer(int *allocation_size, int *len)
+{
+	char	*buffer;
+
+	*allocation_size = 256;
+	*len = 1;
+	buffer = (char *)malloc(*allocation_size * sizeof(char));
+	if (!buffer)
+		exit_msg(ERROR_MALLOC, 1);
+	buffer[0] = '\0';
+	return (buffer);
+}
 
 static char	*add_to_buffer(char *buffer, char byte)
 {
@@ -19,13 +32,7 @@ static char	*add_to_buffer(char *buffer, char byte)
 	static int	len = 1;
 
 	if (!buffer)
-	{
-		allocation_size = 256;
-		len = 1;
-		buffer = (char *)malloc(allocation_size * sizeof(char));
-		if (!buffer)
-			exit_error(ERROR_MALLOC);
-	}
+		buffer = init_buffer(&allocation_size, &len);
 	else if (len == allocation_size)
 	{
 		allocation_size *= 2;
@@ -33,7 +40,7 @@ static char	*add_to_buffer(char *buffer, char byte)
 		if (!new_buffer)
 		{
 			free(buffer);
-			exit_error(ERROR_MALLOC);
+			exit_msg(ERROR_MALLOC, 1);
 		}
 		ft_strlcpy(new_buffer, buffer, len + 2);
 		free(buffer);
@@ -66,18 +73,12 @@ static void	handler(int sig, siginfo_t *info, void *context)
 			buffer = NULL;
 			if (info && kill(info->si_pid, SIGUSR1) == -1)
 				exit_msg(ERROR_SIGNAL, 1);
-			ft_memset(info, 0, sizeof(siginfo_t));
-			byte = 0;
-			bit_index = 0;
-			return ;
 		}
 		else
 			buffer = add_to_buffer(buffer, byte);
 		byte = 0;
 		bit_index = 0;
 	}
-	if (kill(info->si_pid, SIGUSR2) == -1)
-		exit_msg(ERROR_SIGNAL, 1);
 }
 
 static void	init_action(void)
