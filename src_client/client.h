@@ -25,6 +25,7 @@
 # define ERROR_USAGE "Error\nUsage: ./client <server_pid> <message>\n"
 # define ERROR_PID "Error\nInvalid PID\n"
 # define ERROR_SIGNAL "Error\nSignal error\n"
+# define ERROR_TIMEOUT "Error\nTimeout, no confirmation message received\n"
 
 # define TIME 50
 

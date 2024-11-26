@@ -12,13 +12,7 @@
 
 #include "server.h"
 
-void	exit_error(const char *error_msg)
-{
-	ft_printf("%s", error_msg);
-	exit(1);
-}
-
-char	*add_to_buffer(char *buffer, char byte)
+static char	*add_to_buffer(char *buffer, char byte)
 {
 	char		*new_buffer;
 	static int	allocation_size = 256;
@@ -51,7 +45,7 @@ char	*add_to_buffer(char *buffer, char byte)
 	return (buffer);
 }
 
-void	handler(int sig, siginfo_t *info, void *context)
+static void	handler(int sig, siginfo_t *info, void *context)
 {
 	static char	*buffer = NULL;
 	static char	byte = 0;
@@ -62,8 +56,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 		byte = (byte << 1) | 0;
 	else
 		byte = (byte << 1) | 1;
-	bit_index++;
-	if (bit_index == 8)
+	if (++bit_index == 8)
 	{
 		if (byte == 0)
 		{
@@ -72,16 +65,22 @@ void	handler(int sig, siginfo_t *info, void *context)
 			free(buffer);
 			buffer = NULL;
 			if (info && kill(info->si_pid, SIGUSR1) == -1)
-				exit_error(ERROR_SIGNAL);
+				exit_msg(ERROR_SIGNAL, 1);
+			ft_memset(info, 0, sizeof(siginfo_t));
+			byte = 0;
+			bit_index = 0;
+			return ;
 		}
 		else
 			buffer = add_to_buffer(buffer, byte);
 		byte = 0;
 		bit_index = 0;
 	}
+	if (kill(info->si_pid, SIGUSR2) == -1)
+		exit_msg(ERROR_SIGNAL, 1);
 }
 
-void	init_action(void)
+static void	init_action(void)
 {
 	struct sigaction	action;
 
