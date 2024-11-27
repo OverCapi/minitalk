@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:07:12 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 19:46:19 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/27 13:27:17 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@
 # define ERROR_SIGNAL "Error\nSignal error\n"
 # define ERROR_TIMEOUT "Error\nTimeout, no confirmation message received\n"
 
-# define TIME 50
+# define TIME 100
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:44 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 20:08:08 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/27 13:19:34 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	send_byte(int server_pid, char byte)
 
 static void	send_message(int server_pid, const char *msg)
 {
-	int			i;
+	int	i;
 
 	i = -1;
 	while (msg[++i])

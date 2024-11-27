@@ -6,13 +6,13 @@
 /*   By: llemmel <llemmel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:05:42 by llemmel           #+#    #+#             */
-/*   Updated: 2024/11/26 20:06:00 by llemmel          ###   ########.fr       */
+/*   Updated: 2024/11/27 13:26:24 by llemmel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-static char	*init_buffer(int *allocation_size, int *len)
+static char	*init_buffer(size_t *allocation_size, size_t *len)
 {
 	char	*buffer;
 
@@ -27,9 +27,9 @@ static char	*init_buffer(int *allocation_size, int *len)
 
 static char	*add_to_buffer(char *buffer, char byte)
 {
-	char		*new_buffer;
-	static int	allocation_size = 256;
-	static int	len = 1;
+	char			*new_buffer;
+	static size_t	allocation_size = 256;
+	static size_t	len = 1;
 
 	if (!buffer)
 		buffer = init_buffer(&allocation_size, &len);
@@ -94,7 +94,7 @@ static void	init_action(void)
 
 int	main(void)
 {
-	int					server_pid;
+	int	server_pid;
 
 	init_action();
 	server_pid = getpid();
